@@ -1,16 +1,18 @@
 import streamlit as st
 from api import cep_api, format_cep
+from uf import uf_list
 
 
 def main():
     st.title('Busca Por CEP/CNPJ')
     st.write('Este é um buscador de dados de endereço e cep. Escolha o método desejado para buscar e terá o retorno caso válido')
-    method = st.radio('Escolha o método de busca:', options=['CEP', "Endereço"])
+    method = st.radio('Escolha o método de busca:', options=['CEP', "Endereço"], horizontal=True)
 
     if method == 'CEP':
         cep_input = st.text_input("Digite o CEP:")
     elif method == 'Endereço':
-        uf = st.text_input('Digite o Estado:')
+        
+        uf = st.selectbox('Selecione um Estado:', uf_list, index=0)
         localidade = st.text_input('Digite a Cidade')
         logradouro = st.text_input('Digite o nome da Rua')
 
@@ -49,11 +51,21 @@ def main():
 
                     if data_address:
                         st.subheader("Dados do Endereço")
-                        st.write(f'CEP: {data_cep["cep"]}')
-                        st.write(f'Endereço: {data_cep["logradouro"]}')
-                        st.write(f'Bairro: {data_cep["bairro"]}')
-                        st.write(f'Cidade: {data_cep["localidade"]}')
-                        st.write(f'Estado: {data_cep["uf"]}')
+                        st.text(f"Você escolheu buscar informações do endereço: {logradouro} em {localidade} - {uf}")
+                        
+                        for data in data_address:
+                            st.write(f'CEP: {data['cep']}')
+                            st.write(f'Endereço: {data['logradouro']}')
+                            st.write(f'Número: {data['complemento']}')
+                            st.write(f'Bairro: {data['bairro']}')
+                            st.write(f'Cidade: {data['localidade']}')
+                            st.write(f'Estado: {data['uf']}')
+                        
+                        # st.write(f'CEP: {data_cep["cep"]}')
+                        # st.write(f'Endereço: {data_cep["logradouro"]}')
+                        # st.write(f'Bairro: {data_cep["bairro"]}')
+                        # st.write(f'Cidade: {data_cep["localidade"]}')
+                        # st.write(f'Estado: {data_cep["uf"]}')
                     else:
                         st.error(f"Erro ao obter os dados do endereço. Verifique se o endereço {logradouro}, {localidade} - {uf} está correto")
                 except Exception as e:
