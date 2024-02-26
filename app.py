@@ -1,5 +1,5 @@
 import streamlit as st
-from api import cep_api, cnpj_api, format_cep
+from api import cep_api, format_cep
 
 
 def main():
@@ -15,19 +15,17 @@ def main():
         logradouro = st.text_input('Digite o nome da Rua')
 
     bt_consultar = st.button('Consultar')
-    
+
     if method == 'CEP':
-    
+
         if bt_consultar:
             if cep_input:
                 cep = format_cep(cep_input)
-                print(cep)
 
             if len(cep) != 8:
                 return st.error("CEP Inválido. Por favor, insira um valor válido")
 
             data_cep = cep_api(cep)
-            bt_consultar
 
             try:
                 if data_cep:
@@ -48,7 +46,6 @@ def main():
             if uf and localidade and logradouro:
                 try:
                     data_address = cep_api(uf=uf, localidade=localidade, logradouro=logradouro)
-                    bt_consultar
 
                     if data_address:
                         st.subheader("Dados do Endereço")
