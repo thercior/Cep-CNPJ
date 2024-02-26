@@ -216,4 +216,7 @@ pyrightconfig.json
 .history
 .ionide
 
+# Ignore flake8
+.flake8
+
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,database,data
