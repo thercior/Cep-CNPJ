@@ -7,7 +7,7 @@ from services.cnpj_main import search_cnpj
 def main():
     # search = ''
     search = sidebar_component()
-    
+
     match search:
         case "CEP":
             st.title('Busca Por CEP')
