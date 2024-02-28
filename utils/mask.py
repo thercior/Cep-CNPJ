@@ -21,3 +21,9 @@ def mask_cep():
     """
 
     return st.markdown(html_str, unsafe_allow_html=True)
+
+
+def mask_cnpj(*args, **kwargs):
+    cnpj = args[0]
+    cnpj_mask = f'{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{cnpj[12:]}'
+    return cnpj_mask
