@@ -12,8 +12,8 @@ locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 
 def decimal_treat(decimal_str):
-    treat_value = locale.format_string('%.2f', float(decimal_str), grouping=True)
-    return f'R$ {treat_value}'
+    treat_value = locale.currency(float(decimal_str), grouping=True)
+    return treat_value
 
 
 def format_cnpj(cnpj_input):
@@ -53,8 +53,12 @@ def search_cnpj():
             tab1, tab2 = st.tabs(["Dados da Empresa", "Quadro Social da Empresa"])
             with tab1:
                 st.write(f"Dados da empresa de CNPJ {cnpj_input}")
+                print(data_cnpj)
                 data_cnpj_company = [data_cnpj[field] for field in fields_company]
                 data_cnpj_company[-1] = decimal_treat(data_cnpj["capital_social"])
+                # key_fields = ['code', 'text']
+                # data_cnpj_company[8] = [{key: value for key, value in data.items() if key in [key_field for key_field in key_fields]} for data in data_cnpj]
+                # data_cnpj_company[9] = [{key: value for key, value in data.items() if key in [key_field for key_field in key_fields]} for data in data_cnpj]
                 df_cnpj_company = pd.DataFrame(data_cnpj_company, index=fields_company)
                 st.dataframe(df_cnpj_company, use_container_width=True)
 
