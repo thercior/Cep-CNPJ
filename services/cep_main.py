@@ -25,10 +25,8 @@ def search_cep():
     def search_by_cep():
 
         with col1:
-            cep_input = st.text_input("Digite o CEP:")
+            cep_input = st.text_input("Digite o CEP:", max_chars=10)
             # cep_input = input_cep("Digite o CEP:")
-
-        # button = bt_consultar("Consultar")
 
         if bt_search:
             if cep_input:
@@ -62,9 +60,8 @@ def search_cep():
         with colC:
             logradouro = st.text_input('Digite o nome da Rua')
 
-        # button = bt_consultar("Consultar")
-
         if bt_search:
+
             if uf and localidade and logradouro:
                 try:
                     data_address = cep_api(uf=uf, localidade=localidade, logradouro=logradouro)
@@ -73,17 +70,10 @@ def search_cep():
                         st.subheader("Dados do Endereço")
                         st.text(f"Você escolheu buscar informações do endereço: {logradouro} em {localidade} - {uf}")
 
-                        for data in data_address:
-                            st.write(f'CEP: {data["cep"]}')
-                            st.write(f'Endereço: {data["logradouro"]}')
-                            st.write(f'Número: {data["complemento"]}')
-                            st.write(f'Bairro: {data["bairro"]}')
-                            st.write(f'Cidade: {data["localidade"]}')
-                            st.write(f'Estado: {data["uf"]}')
-                            st.divider()
-
-                        # df_address = pd.DataFrame([data_address[field] for field in fields], columns=fields)
-                        # st.dataframe(df_address, use_container_width=True)
+                        # Construção do DataFrame exibir a lista dos resultados da requisição somente com os campos desejados
+                        df_address = [{key: value for key, value in data.items() if key in [field for field in fields]} for data in data_address]
+                        df_address = pd.DataFrame(df_address)
+                        st.dataframe(df_address, use_container_width=True)
                     else:
                         st.error(f"Erro ao obter os dados do endereço. Verifique se o endereço {logradouro}, {localidade} - {uf} está correto")
                 except Exception as e:
