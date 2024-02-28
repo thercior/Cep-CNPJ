@@ -23,6 +23,22 @@ def format_cnpj(cnpj_input):
     return cnpj
 
 
+def format_ativity(row):
+    
+    if row['atividade_principal']:
+        code = row['atividade_principal'][8][0]['code']
+        text = row['atividade_principal'][8][0]['text']
+        return f"Código CNAE: {code}\nAtividade: {text}"
+    elif row['atividades_secundarias']:
+        ativity_formats = []
+        for i, ativity in enumerate(row['atividades_secundarias'][9]):
+            code = ativity['code']
+            text = ativity['text']
+            ativity_formats.append(f"Atividade {i + 1}: Código CNAE: {code}, Atividade: {text}")
+        return "\n".join(ativity_formats) if ativity_formats else None
+    else:
+        return None
+
 def search_cnpj():
     cnpj_input = st.text_input("Digite o CNPJ:", max_chars=18)
     fields_company = [
@@ -60,6 +76,8 @@ def search_cnpj():
                 # data_cnpj_company[8] = [{key: value for key, value in data.items() if key in [key_field for key_field in key_fields]} for data in data_cnpj]
                 # data_cnpj_company[9] = [{key: value for key, value in data.items() if key in [key_field for key_field in key_fields]} for data in data_cnpj]
                 df_cnpj_company = pd.DataFrame(data_cnpj_company, index=fields_company)
+                # df_cnpj_company['atividade_principal'] = df_cnpj_company.apply(format_ativity, axis=1)
+                # df_cnpj_company['atividades_secundaria'] = df_cnpj_company.apply(format_ativity, axis=1)
                 st.dataframe(df_cnpj_company, use_container_width=True)
 
             with tab2:
