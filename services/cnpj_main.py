@@ -1,10 +1,10 @@
 import locale
 import pandas as pd
 import streamlit as st
-from api.api import cep_api, cnpj_api
+from api.api import cnpj_api
 from components.button import button_search
 from utils.mask import mask_cnpj
-from utils.uf import uf_choices
+
 
 
 # Configurações da biblioteca para converter de um sistema para outro
