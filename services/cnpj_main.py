@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 from api.api import cep_api, cnpj_api
 from components.button import button_search
+from utils.mask import mask_cnpj
 from utils.uf import uf_choices
 
 
@@ -14,6 +15,7 @@ def decimal_treat(decimal_str):
     treat_value = locale.format_string('%.2f', float(decimal_str), grouping=True)
     return f'R$ {treat_value}'
 
+
 def format_cnpj(cnpj_input):
     cnpj = ''.join(filter(str.isdigit, cnpj_input))  #  Remove caracteres não numéricos
     cnpj = cnpj[:14]  # Limita a 14 digitos
@@ -22,7 +24,7 @@ def format_cnpj(cnpj_input):
 
 
 def search_cnpj():
-    cnpj_input = st.text_input("Digite o CNPJ:")
+    cnpj_input = st.text_input("Digite o CNPJ:", max_chars=18)
     fields_company = [
         "status", "ultima_atualizacao", "cnpj", "tipo", "porte", "nome",
         "fantasia", "abertura", "atividade_principal", "atividades_secundarias",
@@ -50,13 +52,16 @@ def search_cnpj():
 
             tab1, tab2 = st.tabs(["Dados da Empresa", "Quadro Social da Empresa"])
             with tab1:
+                st.write(f"Dados da empresa de CNPJ {cnpj_input}")
                 data_cnpj_company = [data_cnpj[field] for field in fields_company]
                 data_cnpj_company[-1] = decimal_treat(data_cnpj["capital_social"])
                 df_cnpj_company = pd.DataFrame(data_cnpj_company, index=fields_company)
                 st.dataframe(df_cnpj_company, use_container_width=True)
 
             with tab2:
+                st.write(f"Quadro Social da empresa {data_cnpj['nome']}")
                 data_cnpj_qsa = data_cnpj.get("qsa", [])
+
                 if data_cnpj_qsa:
                     df_cnpj_qsa = pd.DataFrame(data_cnpj_qsa)
                     st.dataframe(df_cnpj_qsa, use_container_width=True)
