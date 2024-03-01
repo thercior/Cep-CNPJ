@@ -1,6 +1,5 @@
-import streamlit as st
-from utils.mask import mask_cep
-
+# import streamlit as st
+# from utils.mask import mask_cep
 
 
 # def input_cep(label):
