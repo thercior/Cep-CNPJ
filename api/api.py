@@ -41,3 +41,16 @@ def cnpj_api(cnpj):
         return data
     else:
         return None
+
+
+def ncm_api(code):
+    url = f"https://brasilapi.com.br/api/ncm/v1?search={code}"
+
+    response = requests.get(url)
+    response.raise_for_status()
+    data = response.json()
+
+    if data:
+        return data
+    else:
+        return None
