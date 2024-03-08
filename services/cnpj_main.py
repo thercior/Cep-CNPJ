@@ -21,27 +21,27 @@ def search_cnpj():
 
             data_cnpj = cnpj_api(cnpj)
 
+            # Verifica se houve retorno de dados da request
+            if data_cnpj:
+                st.subheader(f"Resultado dos dados para o CNPJ {cnpj_input}")
+
+                tab1, tab2 = st.tabs(["Dados da Empresa", "Quadro Social da Empresa"])
+                with tab1:
+                    st.write(f"Dados da empresa de CNPJ {cnpj_input}")
+                    df_cnpj = df_data(data_cnpj)  # tratar os dados da request
+                    st.dataframe(df_cnpj, use_container_width=True)
+
+                with tab2:
+                    st.write(f"Quadro Social da empresa {data_cnpj['nome']}")
+                    data_cnpj_qsa = data_cnpj.get("qsa", [])
+
+                    if data_cnpj_qsa:
+                        df_cnpj_qsa = pd.DataFrame(data_cnpj_qsa)
+                        st.dataframe(df_cnpj_qsa, use_container_width=True)
+                    else:
+                        st.info("NÃO HÁ INFORMAÇÃO DE QUADRO DE SÓCIOS E ADMINISTRADORES (QSA) NA BASE DE DADOS DO CNPJ ")
+            else:
+                st.error(f"Não foram encontrados dados para o CNPJ {cnpj_input} pois ele é inválido ou campo está vazio")
+
         else:
             st.error('CNPJ vazio. Por favor, forneça um valor válido de cnpj para pesquisar')
-
-        # Verifica se houve retorno de dados da request
-        if data_cnpj:
-            st.subheader(f"Resultado dos dados para o CNPJ {cnpj_input}")
-
-            tab1, tab2 = st.tabs(["Dados da Empresa", "Quadro Social da Empresa"])
-            with tab1:
-                st.write(f"Dados da empresa de CNPJ {cnpj_input}")
-                df_cnpj = df_data(data_cnpj)  # tratar os dados da request
-                st.dataframe(df_cnpj, use_container_width=True)
-
-            with tab2:
-                st.write(f"Quadro Social da empresa {data_cnpj['nome']}")
-                data_cnpj_qsa = data_cnpj.get("qsa", [])
-
-                if data_cnpj_qsa:
-                    df_cnpj_qsa = pd.DataFrame(data_cnpj_qsa)
-                    st.dataframe(df_cnpj_qsa, use_container_width=True)
-                else:
-                    st.info("NÃO HÁ INFORMAÇÃO DE QUADRO DE SÓCIOS E ADMINISTRADORES (QSA) NA BASE DE DADOS DO CNPJ ")
-        else:
-            st.error(f"Não foram encontrados dados para o CNPJ {cnpj_input} pois ele é inválido ou campo está vazio")

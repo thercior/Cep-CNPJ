@@ -36,10 +36,7 @@ def search_cep():
                     return st.error("CEP Inválido. Por favor, insira um valor válido")
 
                 data_cep = cep_api(cep)
-            else:
-                st.error('CEP vazio. Por favor, adicione um valor para o Cep')
 
-            try:
                 if data_cep:
                     data_cep = [data_cep[field] for field in fields]
                     st.subheader("Dados do CEP procurado")
@@ -47,8 +44,10 @@ def search_cep():
                     st.dataframe(df_cep, use_container_width=True)
                 else:
                     st.error(f"Não foram encontrados dados para o cep {cep} que foi informado")
-            except Exception as e:
-                return st.error(f'Erro inesperado: o valor para cep é inválido ou inexistente')
+
+            else:
+                st.error('CEP vazio. Por favor, adicione um valor para o Cep')
+
 
     def search_by_address():
 
