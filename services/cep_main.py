@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from api.api import cep_api
+from api.api import cep_api, ibge_api
 from components.button import button_search
 # from components.inputs import input_cep
 from utils.uf import uf_choices
@@ -56,7 +56,14 @@ def search_cep():
             uf_select = st.selectbox('Selecione um Estado:', sorted([state[1] for state in uf_choices]), index=0)
             uf = [uf for uf, state in uf_choices if state == uf_select][0]
         with colB:
-            localidade = st.text_input('Digite a Cidade')
+            # localidade = st.text_input('Digite a Cidade')
+            localidade_select = ibge_api(uf)
+            if localidade_select:
+                localidade = st.selectbox('Selecione uma cidade', [city["nome"] for city in localidade_select])
+            else:
+                localidade = st.text_input('Digite a Cidade')
+                st.info(f"A consulta não retornou nenhum dado para o estado {uf}")
+                
         with colC:
             logradouro = st.text_input('Digite o nome da Rua')
 

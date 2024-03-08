@@ -1,4 +1,5 @@
 import requests
+import streamlit as st
 from urllib.parse import quote as url_quote
 
 
@@ -32,6 +33,19 @@ def cep_api(*args, **kwargs):
 
 def cnpj_api(cnpj):
     url = f"https://receitaws.com.br/v1/cnpj/{cnpj}"
+
+    response = requests.get(url)
+    response.raise_for_status()
+    data = response.json()
+
+    if data:
+        return data
+    else:
+        return None
+
+
+def ibge_api(uf):
+    url = f"https://brasilapi.com.br/api/ibge/municipios/v1/{uf}?providers=dados-abertos-br,gov,wikipedia"
 
     response = requests.get(url)
     response.raise_for_status()
