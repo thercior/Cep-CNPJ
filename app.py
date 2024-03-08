@@ -3,6 +3,7 @@ from components.sidebar import sidebar_component
 from services.cep_main import search_cep
 from services.cnpj_main import search_cnpj
 from services.ncm_main import search_ncm
+from services.fipe_main import search_fipe
 
 
 def main():
@@ -26,7 +27,9 @@ def main():
             search_ncm()
 
         case "FIPE":
-            st.title("Construir a lógica da consulta na tabela FIPE")
+            st.title("Consulta de dados e valores de veículos pela Tabela Fipe")
+            st.write('Este buscar realizar uma consulta de dados e informações de veículos pela tabela Fipe. Escolha o método desejado para consulta')
+            search_fipe()
 
         case _:
             st.error("Opção de busca não encontrada")
