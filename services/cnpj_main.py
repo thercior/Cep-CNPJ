@@ -15,13 +15,14 @@ def search_cnpj():
     if bt_search:
         if cnpj_input:
             cnpj = format_cnpj(cnpj_input)
+
+            if len(cnpj) != 14:
+                return st.error('CNPJ inválido. Por favor, insira um valor válido')
+
+            data_cnpj = cnpj_api(cnpj)
+
         else:
             st.error('CNPJ vazio. Por favor, forneça um valor válido de cnpj para pesquisar')
-
-        if len(cnpj) != 14:
-            return st.error('CNPJ inválido. Por favor, insira um valor válido')
-
-        data_cnpj = cnpj_api(cnpj)
 
         # Verifica se houve retorno de dados da request
         if data_cnpj:
@@ -43,4 +44,4 @@ def search_cnpj():
                 else:
                     st.info("NÃO HÁ INFORMAÇÃO DE QUADRO DE SÓCIOS E ADMINISTRADORES (QSA) NA BASE DE DADOS DO CNPJ ")
         else:
-            st.error(f"Não foram encontrados dados para o CNPJ {cnpj_input}")
+            st.error(f"Não foram encontrados dados para o CNPJ {cnpj_input} pois ele é inválido ou campo está vazio")

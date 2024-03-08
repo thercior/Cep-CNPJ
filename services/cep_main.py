@@ -31,13 +31,13 @@ def search_cep():
         if bt_search:
             if cep_input:
                 cep = format_cep(cep_input)
+                
+                if cep_input and len(cep) != 8:
+                    return st.error("CEP Inválido. Por favor, insira um valor válido")
+
+                data_cep = cep_api(cep)
             else:
                 st.error('CEP vazio. Por favor, adicione um valor para o Cep')
-
-            if len(cep) != 8:
-                return st.error("CEP Inválido. Por favor, insira um valor válido")
-
-            data_cep = cep_api(cep)
 
             try:
                 if data_cep:
@@ -48,7 +48,7 @@ def search_cep():
                 else:
                     st.error(f"Não foram encontrados dados para o cep {cep} que foi informado")
             except Exception as e:
-                return st.error(f'Erro inesperado: o valor para {str(e)} é inválido')
+                return st.error(f'Erro inesperado: o valor para cep é inválido ou inexistente')
 
     def search_by_address():
 
