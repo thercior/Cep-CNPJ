@@ -46,27 +46,41 @@ def cnpj_api(cnpj):
 def fipe_api(*args, **kwargs):
 
     if args:
-        fipe_id = args[0]
-        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands"
+        type_vehicle = args[0]
+        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/"
+        print(url)
 
-    elif ('type_vehicle' and 'brands' and 'model' and 'year' and 'fipe_code') in kwargs:
+    elif 'type_vehicle' in kwargs and 'brands' in kwargs and 'model' in kwargs and 'year' in kwargs and 'fipe_code' in kwargs:
         type_vehicle = url_quote(kwargs['type_vehicle'])
-        brands = url_quote(kwargs['brands'])
+        brands = (kwargs['brands'])
         model = url_quote(kwargs['model'])
         year = url_quote(kwargs['year'])
         fipe_code = url_quote(kwargs['fipe_code'])
+        print(f'API: {type_vehicle} - {brands} - {model} - {year} - {fipe_code}')
 
-        case_brands = True if type_vehicle and brands else False
-        case_models = True if type_vehicle and brands and model else False
-        
-        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/"
-        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/{fipe_code}/years/"
-        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/{fipe_code}/years/{year}/"
-        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/{fipe_code}/years/{year}/history/"
-        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/"
-        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/{model}/years/"
-        url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/{model}/years/{year}/"
+        if type_vehicle and brands and model and year:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/{model}/years/{year}/"
 
+        elif type_vehicle and brands and model:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/{model}/years/"
+
+        elif type_vehicle and brands:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/"
+
+        elif type_vehicle and fipe_code and year:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/{fipe_code}/years/{year}/"
+
+        elif type_vehicle and fipe_code:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/{fipe_code}/years/"
+
+        else:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/{fipe_code}/years/{year}/history/"
+
+    else:
+        raise ValueError("Parâmetros Inválidos para Busca")
+
+    try:
+        print(url)
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
@@ -75,8 +89,72 @@ def fipe_api(*args, **kwargs):
             return data
         else:
             return None
+    except requests.exceptions.RequestException as e:
+        raise Exception(f'Erro na requisição: {str(e)}')
+
+
+def fipe_brands_models_api(*args, **kwargs):
+
+    if 'type_vehicle' in kwargs and 'brands' in kwargs and 'model' in kwargs and 'year' in kwargs:
+        type_vehicle = url_quote(kwargs['type_vehicle'])
+        brands = (kwargs['brands'])
+        model = url_quote(kwargs['model'])
+        year = url_quote(kwargs['year'])
+        print(f'{type_vehicle} - {brands} - {model}')
+
+        if type_vehicle and brands:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/"
+
+        elif type_vehicle and brands and model:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/{model}/years/"
+
     else:
         raise ValueError("Parâmetros Inválidos para Busca")
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        if data:
+            return data
+        else:
+            return None
+    except requests.exceptions.RequestException as e:
+        raise Exception(f'Erro na requisição: {str(e)}')
+
+
+def fipe_model_year_api(*args, **kwargs):
+
+    if 'type_vehicle' in kwargs and 'brands' in kwargs and 'model' in kwargs and 'year' in kwargs:
+        type_vehicle = url_quote(kwargs['type_vehicle'])
+        brands = (kwargs['brands'])
+        model = url_quote(kwargs['model'])
+        year = url_quote(kwargs['year'])
+        print(f'{type_vehicle} - {brands} - {model}')
+
+        if type_vehicle and brands and model:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/{model}/years/"
+
+        elif type_vehicle and brands:
+            url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/"
+            
+
+    else:
+        raise ValueError("Parâmetros Inválidos para Busca")
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        if data:
+            return data
+        else:
+            return None
+    except requests.exceptions.RequestException as e:
+        raise Exception(f'Erro na requisição: {str(e)}')
+
 
 
 def ibge_api(uf):
