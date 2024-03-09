@@ -48,7 +48,6 @@ def fipe_api(*args, **kwargs):
     if args:
         type_vehicle = args[0]
         url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/"
-        print(url)
 
     elif 'type_vehicle' in kwargs and 'brands' in kwargs and 'model' in kwargs and 'year' in kwargs and 'fipe_code' in kwargs:
         type_vehicle = url_quote(kwargs['type_vehicle'])
