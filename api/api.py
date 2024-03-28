@@ -1,5 +1,4 @@
 import requests
-import streamlit as st
 from urllib.parse import quote as url_quote
 
 
@@ -98,8 +97,6 @@ def fipe_brands_models_api(*args, **kwargs):
         type_vehicle = url_quote(kwargs['type_vehicle'])
         brands = (kwargs['brands'])
         model = url_quote(kwargs['model'])
-        year = url_quote(kwargs['year'])
-        print(f'{type_vehicle} - {brands} - {model}')
 
         if type_vehicle and brands:
             url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/"
@@ -129,15 +126,12 @@ def fipe_model_year_api(*args, **kwargs):
         type_vehicle = url_quote(kwargs['type_vehicle'])
         brands = (kwargs['brands'])
         model = url_quote(kwargs['model'])
-        year = url_quote(kwargs['year'])
-        print(f'{type_vehicle} - {brands} - {model}')
 
         if type_vehicle and brands and model:
             url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/{model}/years/"
 
         elif type_vehicle and brands:
             url = f"https://parallelum.com.br/fipe/api/v2/{type_vehicle}/brands/{brands}/models/"
-            
 
     else:
         raise ValueError("Parâmetros Inválidos para Busca")
@@ -153,7 +147,6 @@ def fipe_model_year_api(*args, **kwargs):
             return None
     except requests.exceptions.RequestException as e:
         raise Exception(f'Erro na requisição: {str(e)}')
-
 
 
 def ibge_api(uf):
