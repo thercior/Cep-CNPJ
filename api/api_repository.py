@@ -1,7 +1,7 @@
 import requests
 
 
-class GetCNPJ:
+class GetCNPJAPI:
 
     def __init__(self, cnpj):
         self.__url_base = 'https://receitaws.com.br/v1/cnpj'

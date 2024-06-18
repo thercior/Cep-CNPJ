@@ -20,7 +20,7 @@ def search_cnpj():
                 return st.error('CNPJ Inválido! Por favor, insira um valor válido')
 
             cnpj_service = CNPJService(cnpj_formated)
-            cnpj = cnpj_service.get_cnpj(cnpj_formated)
+            cnpj = cnpj_service.get_cnpj()
 
             if cnpj:
                 st.subheader(f"Resultado dos dados para o CNPJ {cnpj_input}")
