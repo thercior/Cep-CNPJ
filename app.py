@@ -1,9 +1,9 @@
 import streamlit as st
 from components.sidebar import sidebar_component
 from services.cep_main import search_cep
-from services.cnpj_main import search_cnpj
 from services.ncm_main import search_ncm
 from services.fipe_main import search_fipe
+from cnpj.page import search_cnpj
 
 
 def main():
