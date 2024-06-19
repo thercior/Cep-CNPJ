@@ -3,12 +3,9 @@ import streamlit as st
 from cnpj.service import CNPJService
 from components.button import button_search
 from utils.cnpj_utils import df_data, format_cnpj
-from utils.mask import mask_cnpj
 
 
 def search_cnpj():
-    script = mask_cnpj()
-    st.markdown(script, unsafe_allow_html=True)
     cnpj_input = st.text_input("Digite o CNPJ:", max_chars=18, key="cnpj_input", help="Digite somente números")
     bt_search = button_search("Consultar")
 
