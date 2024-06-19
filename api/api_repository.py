@@ -31,13 +31,13 @@ class GetCepApi:
         raise Exception(f'Erro ao obter dados da API. Status code: {response.status_code}')
 
 
-class GetCNPJAPI:
+class GetCnpjApi:
 
     def __init__(self, cnpj):
         self.__url_base = 'https://receitaws.com.br/v1/cnpj'
         self.__get_cnpj = f'{self.__url_base}/{cnpj}/'
 
-    def get_cnpj(self):
+    def get_cnpj_api(self):
         response = requests.get(self.__get_cnpj)
 
         if response.status_code == 200:
@@ -67,7 +67,7 @@ class GetIbgeApi:
         raise Exception(f'Erro ao obter os dados da API. Status code: {response.status_code}')
 
 
-class GetNCMAPI:
+class GetNcmApi:
 
     def __init__(self, ncm):
         self.__url_base = 'https://brasilapi.com.br/api/ncm/v1'
