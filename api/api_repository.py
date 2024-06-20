@@ -49,6 +49,73 @@ class GetCnpjApi:
         raise Exception(f'Erro ao obter os dados da API. Status code: {response.status_code}')
 
 
+class GetFipeApi:
+
+    def __init__(self, type_vehicle=None, brand=None, model=None, year=None, fipe_code=None):
+        self.__url_base = "https://parallelum.com.br/fipe/api/v2"
+        self.__get_brands = f"{self.__url_base}/{type_vehicle}/brands"
+        self.__get_models = f"{self.__get_brands}/{brand}/models"
+        self.__get_years = f"{self.__get_models}/{model}/years"
+        self.__get_fipe_code = f"{self.__url_base}/{type_vehicle}/{fipe_code}/years"
+        self.__get_fipe_code_history = f"{self.__get_fipe_code}/{year}/history/"
+        self.__get_fipe = f"{self.__url_base}/{type_vehicle}/brands/{brand}/models/{model}/years/{year}/"
+
+    def get_fipe_vehicle_api(self):
+        response = requests.get(self.__get_fipe)
+
+        if response.status_code == 200:
+            return response.json()
+
+        if response.status_code != 200:
+            return None
+
+        raise Exception(f'Erro ao obter os dados da Tabela Fipe. Status code: {response.status_code}')
+
+    def get_fipe_code_api(self):
+        response = requests.get(self.__get_fipe_code)
+
+        if response.status_code == 200:
+            return response.json()
+
+        if response.status_code != 200:
+            return None
+
+        raise Exception(f'Erro ao obter os dados da Tabela Fipe. Status code: {response.status_code}')
+
+    def get_fipe_code_history_api(self):
+        response = requests.get(self.__get_fipe_code_history)
+
+        if response.status_code == 200:
+            return response.json()
+
+        if response.status_code != 200:
+            return None
+
+        raise Exception(f'Erro ao obter os dados da Tabela Fipe. Status code: {response.status_code}')
+
+    def get_models_api(self):
+        response = requests.get(self.__get_models)
+
+        if response.status_code == 200:
+            return response.json()
+
+        if response.status_code != 200:
+            return None
+
+        raise Exception(f'Erro ao obter os dados da Tabela Fipe. Status code: {response.status_code}')
+
+    def get_model_year_api(self):
+        response = requests.get(self.__get_years)
+
+        if response.status_code == 200:
+            return response.json()
+
+        if response.status_code != 200:
+            return None
+
+        raise Exception(f'Erro ao obter os dados da Tabela Fipe. Status code: {response.status_code}')
+
+
 class GetIbgeApi:
 
     def __init__(self, uf):

@@ -1,9 +1,8 @@
 import streamlit as st
 from components.sidebar import sidebar_component
-# from services.cep_main import search_cep
-from services.fipe_main import search_fipe
 from cep.page import SearchCep
 from cnpj.page import search_cnpj
+from fipe.page import FipeSearch
 from ncm.page import search_ncm
 
 
@@ -30,7 +29,8 @@ def main():
         case "FIPE":
             st.title("Consulta de dados e valores de veículos pela Tabela Fipe")
             st.write('Este buscar realizar uma consulta de dados e informações de veículos pela tabela Fipe. Escolha o método desejado para consulta')
-            search_fipe()
+            search_fipe_instance = FipeSearch()
+            search_fipe_instance.search_fipe()
 
         case _:
             st.error("Opção de busca não encontrada")
