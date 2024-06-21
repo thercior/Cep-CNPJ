@@ -1,8 +1,8 @@
-import pandas as pd
-import streamlit as st
-from api.api import ncm_api
+from ncm.service import NCMService
 from components.button import button_search
 from st_aggrid import AgGrid
+import pandas as pd
+import streamlit as st
 
 
 def search_ncm():
@@ -10,11 +10,12 @@ def search_ncm():
     bt_search = button_search('Pesquisar')
 
     if bt_search:
-        data_ncm = ncm_api(ncm_input)
+        ncm_service = NCMService(ncm_input)
+        ncm = ncm_service.get_ncm()
 
-        if data_ncm:
+        if ncm:
             st.subheader(f'Resultados para pesquisa: {ncm_input}')
 
-            AgGrid(data=pd.DataFrame(data_ncm))
+            AgGrid(data=pd.DataFrame(ncm))
         else:
-            st.error(f'Código NCM {ncm_input} não existe!')
+            st.error(f'Código NCM {ncm_input} não existe ou inválido!')
