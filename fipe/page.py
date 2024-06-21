@@ -111,12 +111,15 @@ class FipeSearch:
             data_fipe = data_fipe_service.get_fipe_code_history()
 
             if data_fipe:
+                # Remove o dict de price_history do retorno de dados e cria uma tabela
                 price_history = data_fipe.pop('priceHistory')
                 price_df = pd.DataFrame(price_history)
 
+                # itera para criar uma linha para cada preço/histórico
                 for key, value in data_fipe.items():
                     price_df[key] = value
 
+                # Junta cada preço para tabela geral
                 price_df = price_df[['brand', 'model', 'modelYear', 'fuel', 'codeFipe', 'fuelAcronym', 'price', 'month', 'reference']]
 
                 st.dataframe(price_df, use_container_width=True)
