@@ -1,14 +1,12 @@
 import pandas as pd
-import locale
-
-
-# Configurações da biblioteca para converter de um sistema para outro
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 
 # Formatar moeda
 def decimal_treat(decimal_str):
-    treat_value = locale.currency(float(decimal_str), grouping=True)
+    # Formata de string para número float
+    decimal_number = float(decimal_str.replace(',', '').replace('R$', '').strip())
+    # Formata para o padrão de moeda brasileiro: R$ 10.000,00
+    treat_value = f"R$ {decimal_number:,.2f}".replace(',', 'v').replace('.', ',').replace('v', '.')
     return treat_value
 
 
