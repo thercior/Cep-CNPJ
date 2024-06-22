@@ -70,7 +70,7 @@ streamlit run app.py
 
 ## Deploy
 
-Foi feito o deploy da aplicação no próprio cloud do Streamlit, e você pode verificar e testar a aplicação em servidor online por deste link `<a href="https://consumer-api.streamlit.app/" target="_blank">`Consumer-api-app `</a>`
+Foi feito o deploy da aplicação no próprio cloud do Streamlit, e você pode verificar e testar a aplicação em servidor online por deste link <a href="https://consumer-api.streamlit.app/" target="_blank">Consumer-api-app</a>
 
 ## Licença
 Consumerr-api-app está sobre uma Licença MIT.
